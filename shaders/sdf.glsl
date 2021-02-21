@@ -1,12 +1,7 @@
 // Created by F3R0 @ 2021
 
 uniform vec4 player = vec4(0.0, 0.0, 0.0, 0.3);
-float playerScale = 0.5;
-
-float dropx = 0.0; //drop x position
-float dropy= 2.0; //drop y position
-float dropz = 5.0; //drop z position
-float dropScale = 0.5;
+uniform vec4 sphere = vec4(0.0, 0.0, 0.0, 0.1);
 
 float rcubex = 0.0; //drop x position
 float rcubey= 0.0; //drop y position
@@ -61,11 +56,10 @@ float sceneDist(vec3 p) {
     float disp = vec4(Texel(iChannel1, p.xz / 10.)).r; /// sample 2d
     vec3 gp = vec3(groundx,groundy+disp*-0.3,groundz);
 
-    vec3 sp2 = vec3(dropx,dropy,dropz);
     vec3 rp = vec3(rcubex,rcubey,rcubez);
 
     float sphere1 = sdSphere(p - player.xyz, player.w);
-    float sphere2 = sdSphere(p-sp2,dropScale);
+    float sphere2 = sdSphere(p - sphere.xyz, sphere.w);
 
     float plane = sdPlane(p+gp);
     //float rounds = sdRoundBox(p-rp,vec3(0.4,0.1,0.4),0.1);
