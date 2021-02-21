@@ -4,6 +4,7 @@ Player  = require('src.Player')()
 
 lg = love.graphics
 
+love.window.setMode( 800, 600, {} )
 love.window.setTitle("Chocholate Defender")
 
 local player = Player.new()

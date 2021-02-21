@@ -135,7 +135,7 @@ float clcLight(vec3 p) {
 
 vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
 {
-    vec2 uv = (texture_coords - 0.5 * iResolution.xy) / iResolution.y;
+    vec2 uv = (-1.0 * screen_coords + 0.5 * iResolution.xy) / iResolution.y;
     
     vec3 ro = vec3(0, 1, 0);
     vec3 rd = normalize(vec3(uv,1.0));
