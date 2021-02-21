@@ -13,27 +13,31 @@ local time = 0
 local collided = false
 local coltime = 0
 
-function love.load()
-
-end
+sdf = lg.newShader('shaders/sdf.glsl')
+image = lg.newImage('textures/height.png')
 
 function love.draw()
-    if not collided then
-        collided = player:CheckCollision(sphere2)
+    love.graphics.setShader(sdf)
+	love.graphics.rectangle("fill", 0, 0, 800, 600 )
 
-        if collided then
-            coltime = time
+    --[[
+        love.graphics.setShader()
+        if not collided then
+            collided = player:CheckCollision(sphere2)
+
+            if collided then
+                coltime = time
+            end
         end
-    end
 
-    lg.print("Time: " .. math.floor(time * 100) / 100, 0, 0)
-    lg.print("Collision: " .. tostring(collided), 0, 12)
-    lg.print("Collision Time: " .. coltime, 0, 24)
+        lg.print("Time: " .. math.floor(time * 100) / 100, 0, 0)
+        lg.print("Collision: " .. tostring(collided), 0, 12)
+        lg.print("Collision Time: " .. coltime, 0, 24)
 
-    --
+        --
 
-    lg.print("Player: " .. player:ToString(), 0, 40)
-    lg.print("Sphere 2: " .. sphere2:ToString(), 0, 52)
+        lg.print("Player: " .. player:ToString(), 0, 40)
+    ]]
 end
 
 function love.update(dt)
@@ -42,4 +46,6 @@ function love.update(dt)
     player:Update(dt)
 
     --sphere2.pos:Set(time, 0, 0)
+
+    sdf:send("iChannel1", image)
 end

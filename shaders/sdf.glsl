@@ -25,6 +25,9 @@ float lightz = 1.0; //player z position
 float normal_str = 0.01; //normal detail (Lower is better)
 float displacement_str = 0.01; //displacement strength
 
+vec2 iResolution = vec2(800.0, 600.0);
+uniform sampler2D iChannel1;
+
 /// SDF - Sphere
 
 float sdSphere(vec3 p, float r) {
@@ -57,7 +60,7 @@ float sceneDist(vec3 p) {
     //dropx = sin(iTime*2.0)*3.;
     //float speed = 1.0;
     
-    float disp = vec4(texture(iChannel1,p.xz/10.)).r; /// sample 2d
+    float disp = vec4(Texel(iChannel1, p.xz / 10.)).r; /// sample 2d
     vec3 gp = vec3(groundx,groundy+disp*0.3,groundz);
     vec3 sp1 = vec3(playerx,playery,playerz);
     vec3 sp2 = vec3(dropx,dropy,dropz);
@@ -130,9 +133,9 @@ float clcLight(vec3 p) {
 
 }
 
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
+vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
 {
-    vec2 uv = (fragCoord-.5*iResolution.xy)/iResolution.y;
+    vec2 uv = (texture_coords - 0.5 * iResolution.xy) / iResolution.y;
     
     vec3 ro = vec3(0, 1, 0);
     vec3 rd = normalize(vec3(uv,1.0));
@@ -145,7 +148,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     
     float light = clcLight(p);
     
-    col = vec3(light*0.7,light*0.4, light*0.3);
+    col = vec3(light * 0.7, light * 0.4, light * 0.3);
     
-    fragColor = vec4(col,1.0);
+    return vec4(col, 1.0);
 }
