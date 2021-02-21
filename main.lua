@@ -7,7 +7,7 @@ lg = love.graphics
 love.window.setMode( 800, 600, {} )
 love.window.setTitle("Chocholate Defender")
 
-local player = Player.new()
+local player = Player.new(Sphere.new(0.3, Vector3.new(0, 0, 5)))
 local sphere2 = Sphere.new(1, Vector3.new(5, 5, 0))
 
 local time = 0
@@ -16,6 +16,7 @@ local coltime = 0
 
 sdf = lg.newShader('shaders/sdf.glsl')
 image = lg.newImage('textures/height.png')
+image:setWrap("repeat")
 
 function love.draw()
     love.graphics.setShader(sdf)
@@ -49,4 +50,5 @@ function love.update(dt)
     --sphere2.pos:Set(time, 0, 0)
 
     sdf:send("iChannel1", image)
+    sdf:send("player", {player.sphere.pos.x, player.sphere.pos.y, player.sphere.pos.z, player.sphere.r})
 end

@@ -8,22 +8,29 @@ function Player.new(sphere)
   }, Player)
 end
 
+local time = 0
+local speed = 2
+
 function Player:Update(dt)
-    if love.keyboard.isDown("d") then
-        self.sphere.pos.x = self.sphere.pos.x + dt
-    end
+    time = time + dt
 
     if love.keyboard.isDown("a") then
-        self.sphere.pos.x = self.sphere.pos.x - dt
+        self.sphere.pos.x = self.sphere.pos.x + dt * speed
+    end
+
+    if love.keyboard.isDown("d") then
+        self.sphere.pos.x = self.sphere.pos.x - dt * speed
     end
 
     if love.keyboard.isDown("w") then
-        self.sphere.pos.y = self.sphere.pos.y + dt
+        self.sphere.pos.z = self.sphere.pos.z + dt * speed
     end
 
     if love.keyboard.isDown("s") then
-        self.sphere.pos.y = self.sphere.pos.y - dt
+        self.sphere.pos.z = self.sphere.pos.z - dt * speed
     end
+
+    self.sphere.pos.y = math.sin(time * 2) * 0.02 - 0.2
 end
 
 function Player:CheckCollision(other)

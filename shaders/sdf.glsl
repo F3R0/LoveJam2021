@@ -1,8 +1,6 @@
 // Created by F3R0 @ 2021
 
-float playerx = 0.0; //player x position
-float playery= 0.0; //player y position
-float playerz = 5.0; //player z position
+uniform vec4 player = vec4(0.0, 0.0, 0.0, 0.3);
 float playerScale = 0.5;
 
 float dropx = 0.0; //drop x position
@@ -61,19 +59,21 @@ float sceneDist(vec3 p) {
     //float speed = 1.0;
     
     float disp = vec4(Texel(iChannel1, p.xz / 10.)).r; /// sample 2d
-    vec3 gp = vec3(groundx,groundy+disp*0.3,groundz);
-    vec3 sp1 = vec3(playerx,playery,playerz);
+    vec3 gp = vec3(groundx,groundy+disp*-0.3,groundz);
+
     vec3 sp2 = vec3(dropx,dropy,dropz);
     vec3 rp = vec3(rcubex,rcubey,rcubez);
-    float sphere1 = sdSphere(p-sp1,playerScale);
+
+    float sphere1 = sdSphere(p - player.xyz, player.w);
     float sphere2 = sdSphere(p-sp2,dropScale);
+
     float plane = sdPlane(p+gp);
     //float rounds = sdRoundBox(p-rp,vec3(0.4,0.1,0.4),0.1);
     
     //return min(plane,rounds);
     
-/// Smooth Minimum
-float smDist = 1.4;
+    /// Smooth Minimum
+    float smDist = 0.75;
     
     float h1 = max( smDist-abs(sphere1-plane), 0.0 )/smDist;
     float c = min( sphere1, plane ) - h1*h1*smDist*(1.0/4.0);
@@ -127,7 +127,7 @@ float clcLight(vec3 p) {
     
     float light = clamp(dot(normal,vL),0.0,1.0);
     float d = RayMarch(p+normal*0.2,vL);
-    if(d<length(lightPos-p)) light*=0.5; //shadow
+    if(d<length(lightPos-p)) light*=0.8; //shadow
     
     return light;
 
