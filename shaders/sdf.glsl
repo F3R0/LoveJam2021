@@ -54,7 +54,7 @@ float sceneDist(vec3 p) {
     //dropx = sin(iTime*2.0)*3.;
     //float speed = 1.0;
     
-    float disp = vec4(Texel(iChannel1, p.xz /5.0*1.4)).r; /// sample 2d
+    float disp = vec4(Texel(iChannel1, p.xz /8.0*1.4)).r; /// sample 2d
     vec3 gp = vec3(groundx,groundy+disp*displacement_str,groundz);
 
     vec3 rp = vec3(rcubex,rcubey,rcubez);
@@ -62,7 +62,7 @@ float sceneDist(vec3 p) {
     float sphere1 = sdSphere(p - player.xyz, player.w);
     float sphere2 = sdSphere(p - sphere.xyz, sphere.w);
 
-    float plane = sdRoundBox(p-gp,vec3(5.0,0.1,5.0),0.025);
+    float plane = sdRoundBox(p-gp,vec3(4.0,0.1,4.0),0.025);
     //float rounds = sdRoundBox(p-rp,vec3(0.4,0.1,0.4),0.1);
     
     //return min(plane,rounds);
@@ -141,11 +141,11 @@ vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
 {
     vec2 uv = (-1.0 * screen_coords + 0.5 * iResolution.xy) / iResolution.y;
     
-    vec3 ro = vec3(-2, 2, -1); //Camera pos
+    vec3 ro = vec3(0, 3, 0); //Camera pos
     
-    vec3 eye = vec3(3,6,5);
-    mat3 viewToWorld = viewMatrix(eye,
-                                  vec3(1.0,8.0, 0.0), /// Camera Target
+    vec3 eye = vec3(0,0,1);
+    mat3 viewToWorld = viewMatrix(eye+player.xyz,
+                                  vec3(0.0,3.0, 0.0), /// Camera Target
                                   vec3(0.0, 1.0, 0.0)  /// Up vector
                                   );
                                   
