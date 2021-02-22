@@ -12,6 +12,10 @@ local sphere = Sphere.new(1, Vector3.new(0, 5, 5))
 
 local sndSlurp = love.audio.newSource("snd/slurp.wav", "static")
 
+local font = love.graphics.newFont("fonts/Akaya.ttf", 32);
+local font2 = love.graphics.newFont("fonts/Akaya.ttf", 48);
+local font3 = love.graphics.newFont("fonts/Akaya.ttf", 20);
+
 local time = 0
 local collided = false
 local score = 0
@@ -29,21 +33,21 @@ function love.draw()
         love.graphics.setShader(menu)
         love.graphics.rectangle("fill", 0, 0, 800, 600 )
         love.graphics.setShader()
-        lg.print("Star Game: " .. score, 10, 10)
-        lg.print("Credits: " .. health, 10, 22)
-        
+        lg.print("Chocholate Defender", font2, 10, 10)
+        lg.print("press [ENTER] to start", font, 10, 200)
+        lg.print("Ferhat Tanman \nSercan Altundas", font, 10, 450)
+        lg.print("soundimage.org | freesound.org | fonts.google.com", font3, 10, 560)
     else
         love.graphics.setShader(sdf)
         love.graphics.rectangle("fill", 0, 0, 800, 600 )
 
         love.graphics.setShader()
-        --lg.print("Score: " .. player.sphere.pos.x, 10, 10)
-        --lg.print("Health: " .. player.sphere.pos.z, 10, 22)
+        lg.print("Health: " .. health, font,  10, 10)
+        lg.print("Score: " .. score, font, 660, 10)
     end
 end
 
 function love.update(dt)
-    
     time = time + dt
     
     if isMenu then
@@ -53,10 +57,7 @@ function love.update(dt)
 
         menu:send("iTime", time)
         menu:send("iChannel1", image)
-
     else
-        
-    
         player:Update(dt)
     
         sphere.pos.y = sphere.pos.y - dt
@@ -70,6 +71,7 @@ function love.update(dt)
             collided = player:CheckCollision(sphere)
         elseif collided and lerpProgress < 1 then
             if lerpProgress == 0 then
+                score = score + 1
                 love.audio.play(sndSlurp)
             end
 
@@ -84,9 +86,7 @@ function love.update(dt)
         if sphere.pos.y <= -2 then
             lerpProgress = 0
     
-            if collided then
-                score = score + 1
-            else
+            if not collided then
                 health = health - 1
             end
             
