@@ -18,12 +18,18 @@ local isMenu = true
 local health = 5
 
 sdf = lg.newShader('shaders/sdf.glsl')
+menu = lg.newShader('shaders/menu.glsl')
 image = lg.newImage('textures/height.png')
 image:setWrap("repeat")
 
 function love.draw()
     if isMenu then
-
+        love.graphics.setShader(menu)
+        love.graphics.rectangle("fill", 0, 0, 800, 600 )
+        love.graphics.setShader()
+        lg.print("Star Game: " .. score, 10, 10)
+        lg.print("Credits: " .. health, 10, 22)
+        
     else
         love.graphics.setShader(sdf)
         love.graphics.rectangle("fill", 0, 0, 800, 600 )
@@ -39,6 +45,9 @@ function love.update(dt)
         if love.keyboard.isDown("return") then
             isMenu = false
         end
+        menu:send("iChannel1", image)
+        menu:send("player", {player.sphere.pos.x, player.sphere.pos.y, player.sphere.pos.z, player.sphere.r})
+        menu:send("sphere", {sphere.pos.x, sphere.pos.y, sphere.pos.z, sphere.r / 10})
     else
         time = time + dt
     
