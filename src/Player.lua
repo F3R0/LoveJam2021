@@ -4,8 +4,8 @@ Player.__index = Player
 function Player.new(sphere)
   return setmetatable({
     sphere = sphere or Sphere.new(1),
-    health = 100,
-    jumpHeight = 3
+    jumpHeight = 3,
+    isGrounded = true
   }, Player)
 end
 
@@ -13,7 +13,6 @@ local time = 0
 local speed = 2
 local velocity = 0
 local gravity = 10
-local isGounded = true
 
 function Player:Update(dt)
 
@@ -39,18 +38,18 @@ function Player:Update(dt)
 
     -- Jumping
 
-    if love.keyboard.isDown("space") and isGrounded then
-        isGrounded = false
+    if love.keyboard.isDown("space") and self.isGrounded then
+        self.isGrounded = false
         velocity = self.jumpHeight
     end
 
-    if not isGrounded then
+    if not self.isGrounded then
         self.sphere.pos.y = self.sphere.pos.y + velocity * dt
         velocity = velocity - gravity * dt
     end
 
     if self.sphere.pos.y < 0 then
-        isGrounded = true
+        self.isGrounded = true
         self.sphere.pos.y = 0
     end
 end 

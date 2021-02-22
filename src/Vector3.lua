@@ -28,7 +28,7 @@ function Vector3.Distance(a, b)
 end
 
 function Vector3:LerpTo(to, t)	
-  t = math.min(math.max(t, 0), 1)
+  	t = math.min(math.max(t, 0), 1)
 	self:Set(self.x + ((to.x - self.x) * t), self.y + ((to.y - self.y) * t), self.z + ((to.z - self.z) * t))
 end
 
