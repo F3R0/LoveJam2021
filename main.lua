@@ -11,7 +11,13 @@ local player = Player.new(Sphere.new(0.3, Vector3.new(0, 0, 5)))
 local sphere = Sphere.new(1, Vector3.new(0, 5, 5))
 
 local sndSlurp = love.audio.newSource("snd/slurp.wav", "static")
+sndSlurp:setVolume(0.3)
+
 local music = love.audio.newSource("snd/raymarch.mp3", "static")
+music = love.audio.newSource("snd/raymarch.mp3", "static")
+music:setLooping(true)
+music:setVolume(0.1)
+music:play() 
 
 local font = love.graphics.newFont("fonts/Akaya.ttf", 32);
 local font2 = love.graphics.newFont("fonts/Akaya.ttf", 48);
@@ -29,14 +35,7 @@ menu = lg.newShader('shaders/menu.glsl')
 image = lg.newImage('textures/height.png')
 image:setWrap("repeat")
 
-function love.load()
-        music = love.audio.newSource("snd/raymarch.mp3", "static")
-        music:setLooping(true)
-        music:setVolume(0.1)
-        music:play() 
-end
 function love.draw()
-
     if isMenu then
         love.graphics.setShader(menu)
         love.graphics.rectangle("fill", 0, 0, 800, 600 )
@@ -73,6 +72,13 @@ function love.update(dt)
 
         if health == 0 then 
             isMenu = true
+            health = 5
+            score = 0
+            sphere.pos:Set(0, 5, 0)
+            collided = false
+            player.sphere.pos:Set(0, 0, 5)
+            lerpProgress = 0 
+            time = 0
         end
 
         if not collided then
