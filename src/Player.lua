@@ -20,19 +20,19 @@ function Player:Update(dt)
  
     -- Movement
 
-    if love.keyboard.isDown("a") and self.sphere.pos.x < 4.5 then
+    if love.keyboard.isDown("a") and self.sphere.pos.x < 4 then
         self.sphere.pos.x = self.sphere.pos.x + dt * speed
     end
 
-    if love.keyboard.isDown("d") and self.sphere.pos.x > -3 then
+    if love.keyboard.isDown("d") and self.sphere.pos.x > -4 then
         self.sphere.pos.x = self.sphere.pos.x - dt * speed
     end
 
-    if love.keyboard.isDown("w") and self.sphere.pos.z < 9.5 then
+    if love.keyboard.isDown("w") and self.sphere.pos.z < 9 then
         self.sphere.pos.z = self.sphere.pos.z + dt * speed
     end
 
-    if love.keyboard.isDown("s") and self.sphere.pos.z > 1.5 then
+    if love.keyboard.isDown("s") and self.sphere.pos.z > 1 then
         self.sphere.pos.z = self.sphere.pos.z - dt * speed
     end
 

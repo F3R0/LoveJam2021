@@ -2,6 +2,7 @@
 
 uniform vec4 player = vec4(0.0, 0.0, 0.0, 0.3);
 uniform vec4 sphere = vec4(0.0, 0.0, 0.0, 0.1);
+uniform float iTime = 1.0;
 
 float rcubex = 0.0; //drop x position
 float rcubey= -1.0; //drop y position
@@ -50,7 +51,7 @@ float sdRoundBox(vec3 p, vec3 b, float r) {
 float sceneDist(vec3 p) {
 
     //playery = 1.0+sin(iTime*10.0);
-    //playerx = sin(4.-(iTime*5.0));s
+    //playerx = sin(4.-(iTime*5.0));
     //dropx = sin(iTime*2.0)*3.;
     //float speed = 1.0;
     
@@ -159,7 +160,7 @@ vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
     
     vec3 col = vec3(0);
     
-    float light = clcLight(p);
+    float light = clcLight(p) * iTime;
     
     col = vec3(light*0.7,light*0.4, light*0.3);
     

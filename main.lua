@@ -37,8 +37,8 @@ function love.draw()
         love.graphics.rectangle("fill", 0, 0, 800, 600 )
 
         love.graphics.setShader()
-        lg.print("Score: " .. score, 10, 10)
-        lg.print("Health: " .. health, 10, 22)
+        --lg.print("Score: " .. player.sphere.pos.x, 10, 10)
+        --lg.print("Health: " .. player.sphere.pos.z, 10, 22)
     end
 end
 
@@ -47,6 +47,8 @@ function love.update(dt)
         if love.keyboard.isDown("return") then
             isMenu = false
         end
+
+        menu:send("iTime", time)
         menu:send("iChannel1", image)
         menu:send("player", {player.sphere.pos.x, player.sphere.pos.y, player.sphere.pos.z, player.sphere.r})
         menu:send("sphere", {sphere.pos.x, sphere.pos.y, sphere.pos.z, sphere.r / 10})
@@ -68,7 +70,7 @@ function love.update(dt)
             if lerpProgress == 0 then
                 love.audio.play(sndSlurp)
             end
-            
+
             lerpProgress = lerpProgress + dt
             
             target = player.sphere.pos:Clone()
