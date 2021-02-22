@@ -43,6 +43,9 @@ function love.draw()
 end
 
 function love.update(dt)
+    
+    time = time + dt
+    
     if isMenu then
         if love.keyboard.isDown("return") then
             isMenu = false
@@ -50,10 +53,9 @@ function love.update(dt)
 
         menu:send("iTime", time)
         menu:send("iChannel1", image)
-        menu:send("player", {player.sphere.pos.x, player.sphere.pos.y, player.sphere.pos.z, player.sphere.r})
-        menu:send("sphere", {sphere.pos.x, sphere.pos.y, sphere.pos.z, sphere.r / 10})
+
     else
-        time = time + dt
+        
     
         player:Update(dt)
     

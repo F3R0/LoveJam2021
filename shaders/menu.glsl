@@ -1,7 +1,7 @@
 // Created by F3R0 @ 2021
 
-uniform vec4 player = vec4(0.0, 0.0, 0.0, 0.3);
-uniform vec4 sphere = vec4(0.0, 0.0, 0.0, 0.1);
+vec4 player = vec4(3.0, 0.0, 6.0, 0.3);
+vec4 sphere = vec4(0.0, 0.0, 0.0, 0.1);
 uniform float iTime = 1.0;
 
 float rcubex = 0.0; //drop x position
@@ -55,12 +55,12 @@ float sceneDist(vec3 p) {
     //dropx = sin(iTime*2.0)*3.;
     //float speed = 1.0;
     
-    float disp = vec4(Texel(iChannel1, p.xz /8.0*1.4)).r; /// sample 2d
+    float disp = vec4(Texel(iChannel1, vec2(p.x/8.0*1.4,p.z/8.0*1.4+iTime/5.0))).r; /// sample 2d
     vec3 gp = vec3(groundx,groundy+disp*displacement_str,groundz);
 
     vec3 rp = vec3(rcubex,rcubey,rcubez);
 
-    float sphere1 = sdSphere(p - player.xyz, player.w);
+    float sphere1 = sdSphere(p - vec3(player.x,player.y+sin(iTime*2.0),player.z), player.w);
     float sphere2 = sdSphere(p - sphere.xyz, sphere.w);
 
     float plane = sdRoundBox(p-gp,vec3(4.0,0.1,4.0),0.025);
@@ -142,11 +142,11 @@ vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
 {
     vec2 uv = (-1.0 * screen_coords + 0.5 * iResolution.xy) / iResolution.y;
     
-    vec3 ro = vec3(0, 3, 0); //Camera pos
+    vec3 ro = vec3(5, 5, 4); //Camera pos
     
     vec3 eye = vec3(0,0,1);
-    mat3 viewToWorld = viewMatrix(eye+player.xyz,
-                                  vec3(0.0,3.0, 0.0), /// Camera Target
+    mat3 viewToWorld = viewMatrix(eye,
+                                  vec3(0.0,4.0, 0.0), /// Camera Target
                                   vec3(0.0, 1.0, 0.0)  /// Up vector
                                   );
                                   
@@ -160,7 +160,7 @@ vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
     
     vec3 col = vec3(0);
     
-    float light = clcLight(p) * iTime;
+    float light = clcLight(p);
     
     col = vec3(light*0.7,light*0.4, light*0.3);
     
