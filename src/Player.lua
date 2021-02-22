@@ -12,7 +12,12 @@ local time = 0
 local speed = 2
 
 function Player:Update(dt)
+
     time = time + dt
+
+    if self.sphere.pos.y <= 0 then
+        isGrounded = true
+    end
 
     if love.keyboard.isDown("a") then
         self.sphere.pos.x = self.sphere.pos.x + dt * speed
@@ -30,7 +35,15 @@ function Player:Update(dt)
         self.sphere.pos.z = self.sphere.pos.z - dt * speed
     end
 
-    self.sphere.pos.y = math.sin(time * 2) * 0.02 - 0.2
+    if love.keyboard.isDown("space") and isGrounded then
+        self.sphere.pos.y = self.sphere.pos.y + 1.0+dt * speed
+        isGrounded = false
+    end
+
+    if isGrounded ~= true then
+        self.sphere.pos:LerpTo(Vector3.new(self.sphere.pos.x, self.sphere.pos.y+1.0, self.sphere.pos.z), dt / 5)
+        isGrounded = false
+    end
 end
 
 function Player:CheckCollision(other)

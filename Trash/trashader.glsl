@@ -1,7 +1,14 @@
 // Created by F3R0 @ 2021
 
-uniform vec4 player = vec4(0.0, 0.0, 0.0, 0.3);
-uniform vec4 sphere = vec4(0.0, 0.0, 0.0, 0.1);
+float playerx = 0.0; //player x position
+float playery= 3.0; //player y position
+float playerz = 5.0; //player z position
+float playerScale = 0.5;
+
+float dropx = 0.0; //drop x position
+float dropy= 2.0; //drop y position
+float dropz = 5.0; //drop z position
+float dropScale = 0.5;
 
 float rcubex = 0.0; //drop x position
 float rcubey= -1.0; //drop y position
@@ -19,8 +26,6 @@ float normal_intensity = 0.1; //normal detail (Lower is better)
 float displacement_str = 0.2; //displacement strength
 float shadow_intensity = 0.8; //normal detail (Lower is better)
 
-vec2 iResolution = vec2(800.0, 600.0);
-uniform sampler2D iChannel1;
 
 /// SDF - Sphere
 
@@ -45,30 +50,30 @@ float sdRoundBox(vec3 p, vec3 b, float r) {
   
 }
 
+
 /// Scene
 
 float sceneDist(vec3 p) {
 
-    //playery = 1.0+sin(iTime*10.0);
-    //playerx = sin(4.-(iTime*5.0));s
+    //playery = 1.0+sin(iTime*5.0);
+    ///playerx = sin(8.-(iTime*5.0));
     //dropx = sin(iTime*2.0)*3.;
     //float speed = 1.0;
     
-    float disp = vec4(Texel(iChannel1, p.xz /5.0*1.4)).r; /// sample 2d
+    float disp = vec4(texture(iChannel1,p.xz/5.0*1.4)).r; /// sample 2d
     vec3 gp = vec3(groundx,groundy+disp*displacement_str,groundz);
-
+    vec3 sp1 = vec3(playerx,playery,playerz);
+    vec3 sp2 = vec3(dropx,dropy,dropz);
     vec3 rp = vec3(rcubex,rcubey,rcubez);
-
-    float sphere1 = sdSphere(p - player.xyz, player.w);
-    float sphere2 = sdSphere(p - sphere.xyz, sphere.w);
-
+    float sphere1 = sdSphere(p-sp1,playerScale);
+    float sphere2 = sdSphere(p-sp2,dropScale);
+    //float plane = sdPlane(p+gp);
     float plane = sdRoundBox(p-gp,vec3(5.0,0.1,5.0),0.025);
-    //float rounds = sdRoundBox(p-rp,vec3(0.4,0.1,0.4),0.1);
     
     //return min(plane,rounds);
     
-    /// Smooth Minimum
-    float smDist = 1.;
+/// Smooth Minimum
+float smDist = 1.0;
     
     float h1 = max( smDist-abs(sphere1-plane), 0.0 )/smDist;
     float c = min( sphere1, plane ) - h1*h1*smDist*(1.0/4.0);
@@ -104,7 +109,7 @@ float RayMarch(vec3 ro, vec3 rd) {
 /// Calculate Normals (Forward differences)
 
 vec3 clcNormal(vec3 p) {
-    float eps = 0.001;
+    float eps = normal_intensity;
     vec2 h = vec2(eps,0);
     return normalize( vec3(sceneDist(p+h.xyy) - sceneDist(p),
                            sceneDist(p+h.yxy) - sceneDist(p),
@@ -114,6 +119,7 @@ vec3 clcNormal(vec3 p) {
 /// Calculate Light
 
 float clcLight(vec3 p) {
+
     vec3 lightPos = vec3(lightx,lighty,lightz);
     //lightPos.x = sin(25.+iTime)*5.;
     
@@ -163,5 +169,5 @@ vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
     
     col = vec3(light*0.7,light*0.4, light*0.3);
     
-    return vec4(col, 1.0);
+    fragColor = vec4(col,1.0);
 }
