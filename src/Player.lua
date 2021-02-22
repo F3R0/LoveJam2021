@@ -4,20 +4,22 @@ Player.__index = Player
 function Player.new(sphere)
   return setmetatable({
     sphere = sphere or Sphere.new(1),
-    health = 100
+    health = 100,
+    jumpHeight = 3
   }, Player)
 end
 
 local time = 0
 local speed = 2
+local velocity = 0
+local gravity = 10
+local isGounded = true
 
 function Player:Update(dt)
 
     time = time + dt
-
-    if self.sphere.pos.y <= 0 then
-        isGrounded = true
-    end
+ 
+    -- Movement
 
     if love.keyboard.isDown("a") then
         self.sphere.pos.x = self.sphere.pos.x + dt * speed
@@ -35,16 +37,23 @@ function Player:Update(dt)
         self.sphere.pos.z = self.sphere.pos.z - dt * speed
     end
 
+    -- Jumping
+
     if love.keyboard.isDown("space") and isGrounded then
-        self.sphere.pos.y = self.sphere.pos.y + 1.0+dt * speed
         isGrounded = false
+        velocity = self.jumpHeight
     end
 
-    if isGrounded ~= true then
-        self.sphere.pos:LerpTo(Vector3.new(self.sphere.pos.x, self.sphere.pos.y+1.0, self.sphere.pos.z), dt / 5)
-        isGrounded = false
+    if not isGrounded then
+        self.sphere.pos.y = self.sphere.pos.y + velocity * dt
+        velocity = velocity - gravity * dt
     end
-end
+
+    if self.sphere.pos.y < 0 then
+        isGrounded = true
+        self.sphere.pos.y = 0
+    end
+end 
 
 function Player:CheckCollision(other)
     return self.sphere:CheckCollision(other)
