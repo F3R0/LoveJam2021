@@ -10,6 +10,8 @@ love.window.setTitle("Chocholate Defender")
 local player = Player.new(Sphere.new(0.3, Vector3.new(0, 0, 5)))
 local sphere = Sphere.new(1, Vector3.new(0, 5, 5))
 
+local sndSlurp = love.audio.newSource("snd/slurp.wav", "static")
+
 local time = 0
 local collided = false
 local score = 0
@@ -63,6 +65,10 @@ function love.update(dt)
             sphere.pos.y = sphere.pos.y - dt
             collided = player:CheckCollision(sphere)
         elseif collided and lerpProgress < 1 then
+            if lerpProgress == 0 then
+                love.audio.play(sndSlurp)
+            end
+            
             lerpProgress = lerpProgress + dt
             
             target = player.sphere.pos:Clone()
