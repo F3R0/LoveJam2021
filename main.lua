@@ -35,6 +35,7 @@ function love.draw()
         love.graphics.setShader()
         lg.print("Chocholate Defender", font2, 10, 10)
         lg.print("press [ENTER] to start", font, 10, 200)
+        lg.print("WASD - Move\nSpace - Jump", font3, 10, 300)
         lg.print("Ferhat Tanman \nSercan Altundas", font, 10, 450)
         lg.print("soundimage.org | freesound.org | fonts.google.com", font3, 10, 560)
     else
