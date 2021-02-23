@@ -1,4 +1,11 @@
-// Created by F3R0 @ 2021
+// Effect created by F3R0
+
+// SDF Function codes are based on Inigo Quilez's SDF articles.
+// https://www.iquilezles.org/
+
+// Ray Marching code is based on the tutorials of @The_ArtOfCode.
+// https://www.youtube.com/c/TheArtofCodeIsCool
+
 
 vec4 player = vec4(3.0, 0.0, 6.0, 0.3);
 vec4 sphere = vec4(0.0, 0.0, 0.0, 0.1);
