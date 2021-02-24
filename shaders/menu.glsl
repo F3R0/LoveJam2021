@@ -15,15 +15,15 @@ float red = 0.7;
 float green = 0.4;
 float blue = 0.3;
 
-float groundx = 0.0; //player x position
-float groundy = -1.0; //player y position
-float groundz = 5.0; //player z position
+float groundx = 0.0; 
+float groundy = -1.0;
+float groundz = 5.0;
 vec3 groundScale = vec3(4.0,0.1,4.0);
 float groundRadius = 0.025;
 
-float lightx = 0.0; //player x position
-float lighty = 8.0; //player y position
-float lightz = 1.0; //player z position
+float lightx = 0.0;
+float lighty = 8.0;
+float lightz = 1.0;
 
 float normal_intensity = 0.1; //normal detail (Lower is better)
 float dispStrength = 0.2; //displacement strength
@@ -140,7 +140,7 @@ vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
     vec3 ViewDirection = viewToWorld * normalize(vec3(uv,1.0));
     float distanceToScene = RayMarch(camPosition, ViewDirection);
     vec3 position = camPosition + ViewDirection * distanceToScene;
-    
+
     float light = calculateLight(position);
     return vec4(light*red,light*green,light*blue,1.0);
 }
