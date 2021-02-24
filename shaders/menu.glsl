@@ -87,7 +87,7 @@ float RayMarch(vec3 camPosition, vec3 ViewDirection) {
     return distanceToCam;
 }
 
-/// Calculate Normals (Forward differences)
+/// Calculate Normals
 
 vec3 calculateNormals(vec3 position) {
     
@@ -112,7 +112,7 @@ float calculateLight(vec3 position) {
     return light;
 }
 
-/// WorldMatrix / ViewMatrix
+/// ViewMatrix
 mat3 viewMatrix(vec3 eye, vec3 center, vec3 up) {
 
     vec3 camViewDir = normalize(center - eye);
@@ -131,17 +131,16 @@ vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
     
     vec3 camPosition = vec3(5, 5, 4); //Camera pos
     vec3 eye = vec3(0,0,1);
+
     mat3 viewToWorld = viewMatrix(eye,
-                                  vec3(0.0,4.0,0.0), /// Camera Target
-                                  vec3(0.0,1.0,0.0)  /// Up vector
-                                );
+                                  vec3(0.0,4.0,0.0),
+                                  vec3(0.0,1.0,0.0)
+                                  );
                                   
     vec3 ViewDirection = viewToWorld * normalize(vec3(uv,1.0));
     float distanceToScene = RayMarch(camPosition, ViewDirection);
     vec3 position = camPosition + ViewDirection * distanceToScene;
     
-    vec3 col = vec3(0);
     float light = calculateLight(position);
-    
     return vec4(light*red,light*green,light*blue,1.0);
 }
