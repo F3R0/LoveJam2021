@@ -5,7 +5,7 @@ Player  = require('src.Player')()
 lg = love.graphics
 
 love.window.setMode( 800, 600, {} )
-love.window.setTitle("Chocholate Defender")
+love.window.setTitle("Chocolate Defender")
 
 local player = Player.new(Sphere.new(0.3, Vector3.new(0, 0, 5)))
 local sphere = Sphere.new(1, Vector3.new(0, 5, 5))
@@ -40,7 +40,7 @@ function love.draw()
         love.graphics.setShader(menu)
         love.graphics.rectangle("fill", 0, 0, 800, 600 )
         love.graphics.setShader()
-        lg.print("Chocholate Defender", font2, 10, 10)
+        lg.print("Chocolate Defender", font2, 10, 10)
         lg.print("press [ENTER] to start", font, 10, 200)
         lg.print("WASD - Move\nSpace - Jump", font3, 10, 300)
         lg.print("Ferhat Tanman \nSercan Altundas", font, 10, 450)
