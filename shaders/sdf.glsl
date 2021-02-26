@@ -26,7 +26,7 @@ float lightz = 1.0;
 
 float normal_intensity = 0.1; //normal detail (Lower is better)
 float dispStrength = 0.2; //displacement strength
-float shadow_intensity = 0.8; //normal detail (Lower is better)
+float shadow_intensity = 0.8;
 
 vec2 iResolution = vec2(800.0, 600.0);
 uniform sampler2D iChannel1;
