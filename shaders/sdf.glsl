@@ -50,7 +50,7 @@ float distCubeRound(vec3 origin, vec3 scale, float radius) {
 
 float distScene(vec3 position) {
 
-    float displacement = vec4(Texel(iChannel1, position.xz /8)).r; /// sample 2d
+    float displacement = vec4(Texel(iChannel1, position.xz /8.0*1.4)).r; /// sample 2d
     vec3 groundPos = vec3(groundx,groundy+displacement*dispStrength,groundz);
 
     float playerShape = distSphere(position - player.xyz, player.w);
